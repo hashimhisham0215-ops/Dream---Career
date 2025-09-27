@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dream Career Explorer</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 40px; background: #f4f6f9; }
+    h1 { color: #333; }
+    select, button { padding: 10px; margin: 10px; font-size: 16px; }
+    .card { margin-top: 20px; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .career-name { font-size: 22px; font-weight: bold; margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Dream Career Explorer</h1>
+  <p>Choose your dream career to see its definition:</p>
+
+  <select id="career">
+    <option value="car-designer">Car Designer</option>
+    <option value="astronomer">Astronomer</option>
+    <option value="software-dev">Software Developer</option>
+    <option value="doctor">Doctor</option>
+    <option value="teacher">Teacher</option>
+  </select>
+  <button onclick="showCareer()">Show</button>
+
+  <div class="card" id="result">
+    <div class="career-name">—</div>
+    <div class="definition">Select a career to see the definition here.</div>
+  </div>
+
+  <script>
+    const CAREERS = {
+      "car-designer": "Designs the look and feel of cars, both inside and outside, working with engineers to make them stylish and practical.",
+      "astronomer": "Studies planets, stars, and galaxies to understand how the universe works.",
+      "software-dev": "Builds apps and computer programs that help people in daily life.",
+      "doctor": "Treats patients, cures illnesses, and helps people stay healthy.",
+      "teacher": "Helps students learn and supports their growth in knowledge and skills."
+    };
+
+    function showCareer(){
+      const choice = document.getElementById("career").value;
+      const result = document.getElementById("result");
+      result.querySelector(".career-name").textContent = document.getElementById("career").selectedOptions[0].text;
+      result.querySelector(".definition").textContent = CAREERS[choice];
+    }
+  </script>
+</body>
+</html>
