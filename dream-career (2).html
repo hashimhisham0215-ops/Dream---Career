@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dream Career Explorer</title>
+  <meta name="description" content="Pick your dream career and instantly see a simple definition. Perfect for school projects." />
+  <style>
+    :root{
+      --bg:#0f172a;
+      --panel:#111827;
+      --muted:#94a3b8;
+      --text:#e5e7eb;
+      --accent:#22d3ee;
+      --accent-2:#a78bfa;
+      --card:#0b1220;
+      --ring:#ffffff33;
+      --radius:14px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: system-ui, sans-serif;
+      background: radial-gradient(1200px 800px at 10% -10%, #1f2937, transparent) no-repeat,
+                  radial-gradient(900px 600px at 100% 10%, #0ea5e9, transparent) no-repeat,
+                  var(--bg);
+      color:var(--text);
+      line-height:1.5;
+    }
+    header{padding:32px 20px 8px;text-align:center;}
+    .title{font-size:clamp(24px,5vw,40px);margin:0;}
+    .subtitle{margin:8px 0 0;color:var(--muted);font-size:clamp(14px,2.5vw,18px);}
+    main{max-width:940px;margin:24px auto 48px;padding:0 16px;}
+    .panel{background:#0b1220;border:1px solid #ffffff14;border-radius:var(--radius);padding:16px;box-shadow:0 8px 24px #00000055;}
+    .grid{display:grid;grid-template-columns:1fr;gap:16px;}
+    @media(min-width:720px){.grid{grid-template-columns:1.3fr 2fr;}}
+    label{display:block;font-weight:600;margin-bottom:8px;}
+    .control{display:flex;gap:8px;align-items:center;}
+    select{flex:1;padding:12px 14px;border-radius:12px;border:1px solid #ffffff22;background:#0f172a;color:var(--text);font-size:16px;}
+    button{padding:12px 16px;border-radius:12px;border:1px solid #ffffff22;background:linear-gradient(180deg,#0ea5e922,#a78bfa22);color:#e6f9ff;cursor:pointer;font-weight:700;}
+    .card{background:var(--card);border:1px solid #ffffff14;border-radius:var(--radius);padding:18px;min-height:180px;position:relative;}
+    .career-name{font-size:clamp(18px,2.6vw,24px);margin:0 0 6px;}
+    .definition{color:#dbeafe;font-size:clamp(14px,2.3vw,17px);}
+    .muted{color:var(--muted);font-size:14px;margin-top:8px;}
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+    .chip{padding:6px 10px;border-radius:999px;border:1px solid #ffffff22;background:#0b1220;font-size:12px;color:#c7d2fe;}
+    footer{text-align:center;color:var(--muted);font-size:13px;padding:18px 10px 36px;}
+    .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
+  </style>
+</head>
+<body>
+  <header>
+    <h1 class="title">Dream Career Explorer</h1>
+    <p class="subtitle">Choose a career from the list to see a simple, student‑friendly definition.</p>
+  </header>
+  <main class="panel">
+    <div class="grid">
+      <section>
+        <label for="career">Career</label>
+        <div class="control">
+          <select id="career"></select>
+          <button id="showBtn">Show</button>
+        </div>
+        <div class="chips" id="quickChips"></div>
+      </section>
+      <section>
+        <article class="card" id="resultCard">
+          <h3 class="career-name" id="careerName">—</h3>
+          <p class="definition" id="careerDef">Select a career to see its definition here.</p>
+          <p class="muted" id="extraHint">You can edit or add more careers in the code.</p>
+        </article>
+      </section>
+    </div>
+  </main>
+  <footer>Made for school projects • Works offline • Single HTML file</footer>
+
+  <script>
+    const CAREERS = [
+      { id:"car-designer", name:"Car Designer (Automotive Designer)", def:"Designs the look and feel of cars inside and out, making them beautiful, safe, and practical."},
+      { id:"astronomer", name:"Astronomer", def:"Studies planets, stars, and galaxies using telescopes and data to understand the universe."},
+      { id:"software-dev", name:"Software Developer", def:"Builds computer programs and apps for everyday use."},
+      { id:"doctor", name:"Doctor", def:"Diagnoses illnesses and treats patients to help them stay healthy."},
+      { id:"teacher", name:"Teacher", def:"Helps students learn and grow in knowledge and skills."},
+      { id:"pilot", name:"Pilot", def:"Flies airplanes safely to transport people or goods."},
+      { id:"engineer", name:"Engineer", def:"Designs and builds machines, systems, or structures that solve problems."}
+    ];
+
+    const select = document.getElementById('career');
+    const showBtn = document.getElementById('showBtn');
+    const nameEl = document.getElementById('careerName');
+    const defEl  = document.getElementById('careerDef');
+    const chipsEl= document.getElementById('quickChips');
+
+    CAREERS.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c.id;
+      opt.textContent = c.name;
+      select.appendChild(opt);
+    });
+
+    CAREERS.slice(0,4).forEach(c => {
+      const btn = document.createElement('button');
+      btn.className = 'chip';
+      btn.type = 'button';
+      btn.textContent = c.name.split('(')[0].trim();
+      btn.onclick = ()=> showCareer(c.id);
+      chipsEl.appendChild(btn);
+    });
+
+    function showCareer(id){
+      const career = CAREERS.find(x => x.id === id);
+      if(career){
+        nameEl.textContent = career.name;
+        defEl.textContent = career.def;
+      }
+    }
+
+    showBtn.onclick = ()=> showCareer(select.value);
+    window.onload = ()=>{ select.selectedIndex=0; showCareer(select.value); };
+  </script>
+</body>
+</html>
